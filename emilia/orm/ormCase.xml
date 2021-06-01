@@ -1,0 +1,39 @@
+<table name = "user" namespace = "xxx.xx.x" dbtypes = "mysql,sqlite3" comment = "用户表">
+    <columns>
+        <column name = "id" type = "int64" length = "10" unsigned = "true" null = "false" increment = "true" comment = "用户id">
+        </column>
+
+        <column name = "userName" type = "string" length = "8" null = "false" comment = "用户昵称">
+        </column>
+        
+        <column name = "createTime" type = "timestamp" null = "false" comment = "用户创建时间">
+        </column>
+    </columns>
+
+    <indexs>
+        <index name = "primary key" type = "primary" cols = "id" comment = "主键"></index>
+        <index name = "unique key" type = "unique" cols = "userName" comment = "唯一键"></index>
+    </indexs>
+    
+    <updates>
+    </updates>
+</table>
+
+<table name = "Shopping" namespace = "xxx.xx.x" dbtypes = "mysql,sqlite3" comment = "购物表">
+    <columns>
+        <column name = "sid" type = "int64" length = "10" unsigned = "true" null = "false" comment = "购物id"></column>
+        <column name = "sCode" type = "string" length = "16" null = "false" comment = "购物单唯一码"> </column>
+
+        <column name = "uid" type = "int64" length = "10" unsigned = "true" null = "false" comment = "用户id"></column>
+
+        <column name = "wid" type = "int64" length = "10" unsigned = "true" null = "false" comment = "商品id"></column>
+    </columns>
+    
+    <indexs>
+        <index name = "pk" type = "primary" cols = "sid" comment = "主键"></index>
+        <index name = "code" type = "unique" cols = "sCode" comment = "唯一索引"></index>
+        <index name = "uid_wid" type = "unique" cols = "uid,wid" comment = "联合唯一索引"></index>
+        <index name = "codeIndex" type = "index" cols = "sCode" comment = "普通索引"> </index>
+    </indexs>
+
+</table>

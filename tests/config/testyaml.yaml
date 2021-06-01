@@ -1,0 +1,7 @@
+persons:
+      - name: xhw
+        age: 20
+        sex: true
+      - name: npy
+        age: 21
+        sex: false
