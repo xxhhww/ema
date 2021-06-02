@@ -81,11 +81,6 @@ add_executable(test_log1 tests/log/test_log1.cc)
 add_dependencies(test_log1 emilia)
 target_link_libraries(test_log1 ${LIBS})
 
-
-add_executable(test_iter tests/test_iter.cc)
-add_dependencies(test_iter emilia)
-target_link_libraries(test_iter ${LIBS})
-
 add_executable(test_thread tests/base/test_thread.cc)
 add_dependencies(test_thread emilia)
 target_link_libraries(test_thread ${LIBS})
@@ -129,10 +124,6 @@ target_link_libraries(test_smtp ${LIBS})
 add_executable(test_sqlite3 tests/db/test_sqlite3.cc)
 add_dependencies(test_sqlite3 emilia)
 target_link_libraries(test_sqlite3 ${LIBS})
-
-add_executable(test_template tests/test_template.cc)
-add_dependencies(test_template emilia)
-target_link_libraries(test_template ${LIBS})
 
 add_executable(test_config1 tests/config/test_config1.cc)
 add_dependencies(test_config1 emilia)
