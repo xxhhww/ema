@@ -1,14 +1,44 @@
 #include "emilia/base/fiber.h"
 #include "emilia/base/thread.h"
 #include "emilia/util/macroutil.h"
-#include "emilia/config.h"
+#include "emilia/config/config.h"
+
+using namespace emilia::config;
 
 namespace emilia{
 namespace base{
 
 //协程的栈大小配置(1024*1024)
+/*
 ConfigVar<uint32_t>::ptr g_fiber_stack_size =
 Config::Lookup<uint32_t>("fiber.stack_size", 1024*1024, "fiber_stack_size");
+*/
+
+class FiberConfig : public CustomConfig{
+public:
+    FiberConfig(uint64_t ssize = 1024*1024):m_fiberStackSize(ssize){}
+
+    CustomConfig::ptr loadYaml(const YAML::Node& node){
+        uint64_t ssize;
+        if(node["size"].IsDefined())
+            ssize = atoi(node["size"].Scalar().c_str());
+        else
+            ssize = 1024 * 1024;
+        
+        return CustomConfig::ptr (new FiberConfig(ssize));
+    }
+
+    void toString(){
+    }
+
+    uint64_t getStackSize() { return m_fiberStackSize; }
+
+private:
+    uint64_t m_fiberStackSize;
+};
+
+ConfigVar::ptr fiberConfig = 
+ConfigMgr::GetInstance()->addConfig("fiber", "fiber config", CustomConfig::ptr(new FiberConfig()));
 
 //栈空间分配类
 class StackAllocator{
@@ -38,7 +68,8 @@ Fiber::Fiber(std::function<void()> cb, size_t stacksize)
 :m_id(Thread::IncFiber())
 ,m_cb(cb){
 
-    m_stacksize = stacksize ? stacksize : g_fiber_stack_size->getValue();
+    //m_stacksize = stacksize ? stacksize : g_fiber_stack_size->getValue();
+    m_stacksize = stacksize ? stacksize : std::dynamic_pointer_cast<FiberConfig>(fiberConfig->getConfig())->getStackSize();
     //通过malloc分配栈空间
     m_stack = StackAllocator::Alloc(m_stacksize);
     //将当前的寄存器信息保存到变量m_ctx中
