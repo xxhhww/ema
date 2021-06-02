@@ -16,14 +16,6 @@ ConfigVar::ptr ConfigManger::addConfig(const std::string& name,
                                        CustomConfig::ptr config, 
                                        ConfigVar::onChangeCb cb){
 
-    std::cout << name << std::endl;
-
-    for(auto i = m_configVars.begin(); i != m_configVars.end(); i++){
-        std::cout << i->first << std::endl;
-    }
-
-    std::cout << m_configVars.size() << std::endl;
-
     auto it = m_configVars.find(name);
     //已经存在此配置名称
     if(it != m_configVars.end()){
@@ -40,8 +32,6 @@ ConfigVar::ptr ConfigManger::addConfig(const std::string& name,
 void ConfigManger::LoadFromYaml(const YAML::Node& root){
     if(!root.IsMap())
         return ;
-
-    std::cout << "芜湖" << std::endl;    
 
     //必须是map类型的
     for(auto it = root.begin(); it != root.end(); it++){

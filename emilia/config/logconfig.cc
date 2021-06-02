@@ -29,11 +29,16 @@ bool LogAppenderConfig::loadYaml(const YAML::Node& node){
         std::cout << "Appender Type Is UnDefined" << std::endl;
         return false;
     }
-    m_formatter = node["formatter"].Scalar();
+
+    if(node["formatter"].IsDefined())
+        m_formatter = node["formatter"].as<std::string>();
+    else
+        m_formatter = "";
+
     //是文件输出地
     if(m_type == 0){
         if(node["file"].IsDefined())
-            m_file = node["file"].Scalar();
+            m_file = node["file"].as<std::string>();
         else{
             std::cout << "Appender Type Is File But File Is UnDefined" << std::endl;
             return false;    
@@ -44,25 +49,27 @@ bool LogAppenderConfig::loadYaml(const YAML::Node& node){
 
 bool LoggerConfig::loadYaml(const YAML::Node& node){
     if(node["name"].IsDefined())
-        m_name = node["name"].Scalar();
+        m_name = node["name"].as<std::string>();
     else{
         std::cout << "Logger Name Is UnDefined" << std::endl;
         return false;
     }
 
     if(node["level"].IsDefined())
-        m_level = StringToLevel(node["level"].Scalar());
+        m_level = StringToLevel(node["level"].as<std::string>());
     else{
         std::cout << "Logger: " << m_name << " Level Is UnDefined" << std::endl;
         return false;
     }
 
     if(node["formatter"].IsDefined())
-        m_formatter = node["formatter"].Scalar();
+        m_formatter = node["formatter"].as<std::string>();
     else{
         std::cout << "Logger: " << m_name << " Formatter Is UnDefined" << std::endl;
         return false;
     }
+
+    std::cout << m_formatter << std::endl;
 
     if(!node["appenders"].IsDefined()){
         std::cout << "Logger: " << m_name << " Appenders Is UnDefined" << std::endl;
