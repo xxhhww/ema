@@ -14,7 +14,6 @@ public:
     ~LogStreamWrap(){
         if(!m_isAsync){
             //根据日志器名称找到日志器并输出
-            std::cout << "test" << std::endl;
             Logger::ptr logger = LoggerMgr::GetInstance()->lookUp(m_stream->getLoggerName());
             //日志器管理类中不存在日志器名称为此的日志器
             if(logger == nullptr)
