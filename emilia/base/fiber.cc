@@ -9,11 +9,6 @@ namespace emilia{
 namespace base{
 
 //协程的栈大小配置(1024*1024)
-/*
-ConfigVar<uint32_t>::ptr g_fiber_stack_size =
-Config::Lookup<uint32_t>("fiber.stack_size", 1024*1024, "fiber_stack_size");
-*/
-
 class FiberConfig : public CustomConfig{
 public:
     FiberConfig(uint64_t ssize = 1024*1024):m_fiberStackSize(ssize){}
